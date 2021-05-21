@@ -21,14 +21,19 @@
     </properties>
 
     <dependencies>
-<!--        Junit testing platform-->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.2.12</version>
+        </dependency>
+<!--Junit testing platform-->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.13.2</version>
             <scope>test</scope>
         </dependency>
-<!--       Mockito Dependency -->
+<!--Mockito Dependency -->
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
@@ -37,13 +42,19 @@
 <!--Jackson JSON library-->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-core</artifactId>
+            <artifactId>jackson-databind</artifactId>
             <version>2.12.3</version>
+        </dependency>
+<!--Java Servlets -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.1.0</version>
         </dependency>
     </dependencies>
 
     <build>
-<!--        Jacoco Maven Plugin Use mvn jacoco:report for when you want to generate the site in the target folder-->
+<!--Jacoco Maven Plugin Use mvn jacoco:report for when you want to generate the site in the target folder-->
         <plugins>
             <plugin>
                 <groupId>org.jacoco</groupId>
@@ -63,33 +74,33 @@
                         </goals>
                     </execution>
 
-<!--                    Check ran when utilizing mvn clean verify, ensures there is no build
-                        unless specific coverage ratio is met, set at 10 percent for me to test quickly, change it to the 80 for production-->
-                    <execution>
-                        <id>jacoco-check</id>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                        <configuration>
-                            <rules>
-                                <rule>
-                                    <element>PACKAGE</element>
-                                    <exludes>
-                                        <exclude>
-                                            *Test
-                                        </exclude>
-                                    </exludes>
-                                    <limits>
-                                        <limit>
-                                            <counter>LINE</counter>
-                                            <value>COVEREDRATIO</value>
-                                            <minimum>0.10</minimum>
-                                        </limit>
-                                    </limits>
-                                </rule>
-                            </rules>
-                        </configuration>
-                    </execution>
+<!--Check ran when utilizing mvn clean verify, ensures there is no build
+    unless specific coverage ratio is met, set at 10 percent for me to test quickly, change it to the 80 for production-->
+<!--                    <execution>-->
+<!--                        <id>jacoco-check</id>-->
+<!--                        <goals>-->
+<!--                            <goal>check</goal>-->
+<!--                        </goals>-->
+<!--                        <configuration>-->
+<!--                            <rules>-->
+<!--                                <rule>-->
+<!--                                    <element>PACKAGE</element>-->
+<!--                                    <excludes>-->
+<!--                                        <exclude>-->
+<!--                                            *Test-->
+<!--                                        </exclude>-->
+<!--                                    </excludes>-->
+<!--                                    <limits>-->
+<!--                                        <limit>-->
+<!--                                            <counter>LINE</counter>-->
+<!--                                            <value>COVEREDRATIO</value>-->
+<!--                                            <minimum>0.10</minimum>-->
+<!--                                        </limit>-->
+<!--                                    </limits>-->
+<!--                                </rule>-->
+<!--                            </rules>-->
+<!--                        </configuration>-->
+<!--                    </execution>-->
                 </executions>
             </plugin>
         </plugins>
