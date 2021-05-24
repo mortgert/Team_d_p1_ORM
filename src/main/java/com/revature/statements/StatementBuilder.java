@@ -10,18 +10,20 @@ package com.revature.statements;
 
 // Builds Statements based upon table info and field types, extended for specific statement types, ALA the Sub languages of SQL
 
+import com.revature.configurations.TableConfig;
+import com.revature.exception.ImproperConfigurationException;
 import com.revature.types.ColumnFieldType;
 import com.revature.types.DataType;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  *
  */
-public class StatementBuilder{
+public abstract class StatementBuilder{
 
     protected StatementType type;
     protected PreparedStatement sqlStatement;
@@ -54,14 +56,22 @@ public class StatementBuilder{
                 case FLOAT:
                     statement.setFloat(i, (Float) fieldData.getDefaultValue());
                     break;
-                case DATE:
-                    statement.setDate(i, (Date) fieldData.getDefaultValue());
-                    break;
                 default:
                     dataType.javaToPostgreSQLArguments(fieldData,fieldData.getDefaultValue());
 
             }
         }
         return statement;
+    }
+
+    protected abstract ResultSet buildStatement(Object objectToBePersisted, String... conditionalFieldNames) throws SQLException, ImproperConfigurationException;
+
+    protected void processConditionStatements(TableConfig tableConfig,List<ColumnFieldType> conditionalFieldTypes, String... conditionalFieldNames){
+        List<String> conditionalFields = Arrays.asList(conditionalFieldNames);
+        for(ColumnFieldType type:tableConfig.getFieldTypes()){
+            if(conditionalFields.contains(type.getColumnName())){
+                conditionalFieldTypes.add(type);
+            }
+        }
     }
 }
